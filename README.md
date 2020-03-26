@@ -1,9 +1,9 @@
-### Implementation of UR5 pick and place in ROS-Gazebo with a USB cam and vacuum grippers. 
+### Implementation of UR5 pick and place in ROS-Gazebo with a USB cam and vacuum grippers.
 <p align="center">
 <img src="https://github.com/lihuang3/ur5_notebook/blob/master/media/demo1.gif" width="400">
 <img src="https://github.com/lihuang3/ur5_notebook/blob/master/media/demo2.gif" width="405">
 
-This repository demonstrates UR5 pick-and-place in ROS and Gazebo. The UR5 uses a USB cam to detect a red box on a conveyor ([`ur5_vision.py`](https://github.com/lihuang3/ur5_ROS-Gazebo/blob/master/ur5_vision.py)), and publish its position. UR5 plans its motion ([`ur5_mp.py`](https://github.com/lihuang3/ur5_ROS-Gazebo/blob/master/ur5_mp.py)) to follow the box. Once the end-effector gets close enough to the box, it approaches the box with vacuum grippers turning on ([`ur5_gripper.py`](https://github.com/lihuang3/ur5_ROS-Gazebo/blob/master/ur5_gripper.py)). Since the vacuum gripper only provides limited force, we placed multiple grippers in order to lift the object. 
+This repository demonstrates UR5 pick-and-place in ROS and Gazebo. The UR5 uses a USB cam to detect a red box on a conveyor ([`ur5_vision.py`](https://github.com/lihuang3/ur5_ROS-Gazebo/blob/master/ur5_vision.py)), and publish its position. UR5 plans its motion ([`ur5_mp.py`](https://github.com/lihuang3/ur5_ROS-Gazebo/blob/master/ur5_mp.py)) to follow the box. Once the end-effector gets close enough to the box, it approaches the box with vacuum grippers turning on ([`ur5_gripper.py`](https://github.com/lihuang3/ur5_ROS-Gazebo/blob/master/ur5_gripper.py)). Since the vacuum gripper only provides limited force, we placed multiple grippers in order to lift the object.
 
 - Video demos:
   [`Simulation video`](https://youtu.be/Yj5DEocFa48)
@@ -14,7 +14,7 @@ This repository demonstrates UR5 pick-and-place in ROS and Gazebo. The UR5 uses 
 
 - Update: based on feebacks from the community, we have made several key changes to this repository on 09/16/2018. Please update your code in case you have trouble reproducing the results.
 
-- How to cite this repository: 
+- How to cite this repository:
   ```
     Huang, L., Zhao, H., Implementation of UR5 pick and place in ROS-Gazebo with a USB cam and vacuum grippers, (2018), GitHub repository, https://github.com/lihuang3/ur5_ROS-Gazebo.git
   ```
@@ -33,7 +33,7 @@ This repository demonstrates UR5 pick-and-place in ROS and Gazebo. The UR5 uses 
 #### How to use this repository
 - This project was tested in Ubuntu 16.04 with ROS kinetic.
 - Make sure you have installed Python2.7 and some useful libraries/packages, such as Numpy, cv2, etc.
-- Install ROS kinetic, Gazebo, universal robot, Moveit, RViz. 
+- Install ROS kinetic, Gazebo, universal robot, Moveit, RViz.
 - Assuming your universal robot workspace is named as `ur_ws`, download the repository to `ur_ws/src/`
   ```
   $ cd ur_ws/src
@@ -43,10 +43,11 @@ This repository demonstrates UR5 pick-and-place in ROS and Gazebo. The UR5 uses 
   ```
     shoulder_pan_lower_limit="${-2*pi}" shoulder_pan_upper_limit="${2*pi}"
   ```
-- In the same directory, make a copy of `common.gazebo.xacro` and `ur5.urdf.xacro` in case of any malfunction. 
-These two default files do not include camera and vacuum gripper modules. 
-So we would replace these two files with customized files. 
-Under directory `ur_ws/src/ur5_ROS-Gazebo/src/ur_description/`, copy `common.gazebo.xacro` and `ur5.urdf.xacro` to `ur_ws/src/universal_robot/ur_description/urdf/`.
+- In the same directory, make a copy of `common.gazebo.xacro` and `ur5.urdf.xacro` in case of any malfunction.
+These two default files do not include camera and vacuum gripper modules.
+So we would replace these two files with customized files.
+Under directory `ur_ws/src/ur5_ROS-Gazebo/src/ur_description/`, copy `common.gazebo.xacro` and `ur5.urdf.xacro` to `ur_ws/src/universal_robot/ur_description/urdf/`. Open the `ur5.urdf.xacro` file
+and add "transmission_hw_interface:=hardware_interface/PositionJointInterface" to "<xacro:macro name="ur5_robot"" entry. Also, add "hw_interface="${transmission_hw_interface}"" to the "<xacro:ur_arm_transmission" entry. This will address the `Invalid parameter transmission_hw_interface' None None"` issue.
 - Build the code under directory `ur_ws/`,
   ```
   $ catkin_make
@@ -54,10 +55,10 @@ Under directory `ur_ws/src/ur5_ROS-Gazebo/src/ur_description/`, copy `common.gaz
   ```
 - Run the code with ROS and Gazebo
   ```
-  $ roslaunch ur5_notebook initialize.launch 
+  $ roslaunch ur5_notebook initialize.launch
   ```
-- Things to work on: (1) vacuum grippers only provide limited force for lifting, so we had to use so many of them in order to pick up a light box. If you have any suggestions, please let us know. (2) UR5 motion planning is not in realtime, and hence you can ovserve a non-smooth motion of the end-effect in the camera view. 
- 
+- Things to work on: (1) vacuum grippers only provide limited force for lifting, so we had to use so many of them in order to pick up a light box. If you have any suggestions, please let us know. (2) UR5 motion planning is not in realtime, and hence you can ovserve a non-smooth motion of the end-effect in the camera view.
+
 
 #### 0. References
 - [__`GitHub: utecrobotics/ur5`__](https://github.com/utecrobotics/ur5) testing ur5 motion
